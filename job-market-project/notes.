@@ -1,0 +1,33 @@
+1- Start
+
+ 2 — Introduce agent behaviour
+
+Give each particle its own speed, movement, and decision-making rules. 
+Create job-opening nodes that attract job seekers, with limited positions available.
+
+
+
+
+ 3 — Incorporate Canadian labour-market data
+
+Research Statistics Canada and Job Bank datasets to find occupation-specific information, such as job vacancies, 
+employment levels, and labour-market outlooks. Use appropriate scaling to translate those figures into particles
+ and opportunities.
+
+
+
+
+ 4 — Add AI impact scenarios
+
+Introduce an interactive slider that changes hypothetical job availability or demand. 
+Show how the agents reorganize when opportunities increase or decrease. Clearly distinguish 
+these scenarios from real forecasts.
+
+
+
+
+ 5 — Develop emergent behaviour
+
+Add local rules such as separation, attraction, competition, and movement toward 
+unfilled opportunities. Observe how patterns develop from interactions among agents rather than
+ manually animating the overall result.

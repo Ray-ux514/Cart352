@@ -107,7 +107,7 @@ class Particle {
     this.radius = random(30, FIELD_RADIUS);
 
     this.speed = random(0.001, 0.006);
-    this.size = random(1, 2.5);
+    this.size = random(2, 4.5);
 
     this.offset = random(TWO_PI);
 
@@ -133,7 +133,7 @@ class Particle {
     let d = dist(mouseX, mouseY, targetX, targetY);
 
     if (d < 100 && d > 0) {
-      let force = map(d, 0, 100, 35, 0);
+      let force = map(d, 20, 100, 5, 0);
 
       let direction = atan2(targetY - mouseY, targetX - mouseX);
 

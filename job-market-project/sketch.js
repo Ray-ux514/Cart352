@@ -73,6 +73,27 @@ const occupations = [
     lat: 35,
     lon: 180,
   },
+  {
+    id: "Athlete",
+    name: "ATHLETE",
+    color: [273, 13, 26],
+    lat: -5,
+    lon: 85,
+  },
+  {
+    id: "VFX Artisit",
+    name: "VFX ARTIST",
+    color: [173, 63, 46],
+    lat: -35,
+    lon: 95,
+  },
+  {
+    id: "Translator",
+    name: "TRANSLATOR",
+    color: [203, 33, 95],
+    lat: -135,
+    lon: 85,
+  },
 ];
 
 function setup() {
@@ -238,14 +259,14 @@ function draw() {
     circle(node.screenX, node.screenY, selected ? 15 : 11);
 
     // Highlight
-    fill(255, 255, 255, front ? 170 : 50);
+    fill(250, 250, 250, front ? 170 : 50);
     circle(node.screenX - 2, node.screenY - 2, 3);
 
     // Selection ring
     if (selected) {
       noFill();
-      stroke(255, 255, 255, 140);
-      strokeWeight(0.8);
+      stroke(245, 245, 245, 140);
+      strokeWeight(4);
       circle(node.screenX, node.screenY, 25);
     }
   }
