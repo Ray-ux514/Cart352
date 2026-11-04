@@ -3,60 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Future of Work | Canada</title>
+    <title>Future of Work — Labour Market Atlas</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.11/p5.min.js"></script>
   </head>
   <body>
     <div id="particle-canvas"></div>
 
-    <main class="homepage">
-      <div class="topbar">
-        <span class="logo">FUTURE / WORK</span>
-        <span class="edition">CANADA — 2026</span>
-      </div>
-
-      <section class="hero">
-        <p class="eyebrow">AN INTERACTIVE LABOUR MARKET EXPERIENCE</p>
-
-        <h1>The Future<br />of <em>Work.</em></h1>
-
-        <p class="description">
-          An exploration of people, opportunity, and artificial intelligence in
-          Canada's evolving job market.
-        </p>
-
-        <div class="controls">
-          <label for="occupation">SELECT AN OCCUPATION</label>
-          <select id="occupation">
-            <option value="all">Explore all occupations</option>
-            <option value="designer">Graphic Designer</option>
-            <option value="developer">Software Developer</option>
-            <option value="nurse">Registered Nurse</option>
-            <option value="teacher">Teacher</option>
-            <option value="electrician">Electrician</option>
-          </select>
-
-          <button id="explore-btn">Explore the Market ↗</button>
+    <main class="interface">
+      <header class="topbar">
+        <div class="project-info">
+          <p class="eyebrow">EXP_01 // CANADIAN LABOUR MARKET</p>
+          <h1>Future of Work<span class="period">.</span></h1>
+          <p class="intro">
+            Mapping the relationship between people, employment opportunities,
+            and artificial intelligence.
+          </p>
         </div>
-      </section>
 
-      <div class="footer">
-        <span>MOVE YOUR CURSOR TO INTERACT</span>
-        <span id="particle-count">0 ACTIVE AGENTS</span>
+        <div class="top-right">
+          <span class="status-dot"></span>
+          INTERACTIVE LABOUR ATLAS
+        </div>
+      </header>
+
+      <div id="node-tooltip" class="node-tooltip hidden">
+        <span id="tooltip-number"></span>
+        <strong id="tooltip-name"></strong>
+        <small>CLICK TO SELECT OCCUPATION</small>
       </div>
-    </main>
 
-    <div id="info-panel" class="info-panel hidden">
-      <button id="close-panel" aria-label="Close panel">×</button>
-      <p class="eyebrow">MARKET EXPLORER</p>
-      <h2 id="panel-title">All Occupations</h2>
-      <p id="panel-description"></p>
-      <p class="data-note">
-        Prototype simulation. Particle counts are illustrative, not real
-        employment statistics.
-      </p>
-    </div>
+      <div class="selected-occupation">
+        <span class="section-label">SELECTED OCCUPATION</span>
+        <strong id="selected-name">ALL OCCUPATIONS</strong>
+        <span id="selected-code">MARKET / OVERVIEW</span>
+      </div>
+
+      <footer class="bottom-panel">
+        <div class="technical-info">
+          <p class="technical-heading">
+            <span class="status-dot"></span>
+            DISTRIBUTION: FIBONACCI SPHERE
+          </p>
+          <p>• 2,800 PARTICLES / 5 OCCUPATION NODES</p>
+          <p>• DRAG TO ROTATE THE LABOUR MARKET</p>
+          <p>• SELECT A NODE TO EXPLORE AN OCCUPATION</p>
+        </div>
+
+        <button id="explore-btn">EXPLORE THE MARKET <span>↗</span></button>
+
+        <div class="interaction-info">
+          <p>INTERACTION PROTOCOL</p>
+          <span>[ DRAG ] ROTATE</span>
+          <span>[ HOVER ] IDENTIFY</span>
+          <span>[ CLICK ] SELECT</span>
+        </div>
+      </footer>
+    </main>
 
     <script src="sketch.js"></script>
   </body>

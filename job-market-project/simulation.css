@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #030405;
+  color: #eeeeee;
+  font-family: "DM Mono", monospace;
+}
+
+#simulation-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+#simulation-canvas canvas {
+  display: block;
+}
+
+.interface {
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  padding: 55px 4%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.project-info {
+  max-width: 310px;
+}
+
+.eyebrow,
+.label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #8a9299;
+}
+
+h1 {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  margin: 15px 0;
+}
+
+h1 span {
+  color: #72dfc4;
+}
+
+.description {
+  font-size: 11px;
+  line-height: 1.9;
+  color: #7d858c;
+}
+
+.back-link {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+.back-link:hover {
+  color: #72dfc4;
+}
+
+.occupation-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: flex-start;
+  padding-left: 18px;
+  border-left: 1px solid #45535a;
+}
+
+.occupation-display strong {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+#agent-count {
+  color: #777;
+  font-size: 10px;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 10px;
+  color: #777;
+  letter-spacing: 1px;
+}
+
+footer p {
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+footer span {
+  display: block;
+  margin-top: 8px;
+}
+
+.instructions {
+  text-align: right;
+}
+
+@media (max-width: 700px) {
+  .interface {
+    padding: 28px 22px;
+  }
+  h1 {
+    font-size: 26px;
+  }
+  .description {
+    max-width: 220px;
+  }
+  .instructions {
+    display: none;
+  }
+}

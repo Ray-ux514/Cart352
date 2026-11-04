@@ -1,221 +1,308 @@
-let agents = [];
-let opportunities = [];
+let sphereParticles = [];
+let jobNodes = [];
+
+let rotX = -0.12;
+let rotY = 0;
+let targetRotX = -0.12;
+let targetRotY = 0;
+
+let dragging = false;
+let dragged = false;
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+let hoveredNode = null;
 let selectedOccupation = "all";
 
-const occupationSettings = {
-  all: {
-    name: "All Occupations",
-    agents: 110,
-    jobs: 7,
-    description:
-      "Explore a simulated network of people searching for employment opportunities.",
+const PARTICLE_COUNT = 2800;
+const RADIUS = 245;
+
+const occupations = [
+  {
+    id: "designer",
+    name: "GRAPHIC DESIGNER",
+    color: [239, 117, 57],
+    lat: 28,
+    lon: -125,
   },
-  designer: {
-    name: "Graphic Designer",
-    agents: 100,
-    jobs: 3,
-    description:
-      "Explore how competition and opportunity can be visualized within creative professions.",
+  {
+    id: "developer",
+    name: "SOFTWARE DEVELOPER",
+    color: [65, 146, 255],
+    lat: 48,
+    lon: 25,
   },
-  developer: {
-    name: "Software Developer",
-    agents: 120,
-    jobs: 6,
-    description:
-      "Explore the relationship between technological change, workers, and employment opportunities.",
+  {
+    id: "nurse",
+    name: "REGISTERED NURSE",
+    color: [69, 206, 236],
+    lat: 5,
+    lon: 80,
   },
-  nurse: {
-    name: "Registered Nurse",
-    agents: 75,
-    jobs: 9,
-    description:
-      "Explore a simulated labour market with more available opportunities.",
+  {
+    id: "teacher",
+    name: "TEACHER",
+    color: [248, 205, 103],
+    lat: -35,
+    lon: 45,
   },
-  teacher: {
-    name: "Teacher",
-    agents: 85,
-    jobs: 6,
-    description:
-      "Explore the movement of job seekers toward available teaching positions.",
+  {
+    id: "electrician",
+    name: "ELECTRICIAN",
+    color: [114, 223, 196],
+    lat: -55,
+    lon: -110,
   },
-  electrician: {
-    name: "Electrician",
-    agents: 65,
-    jobs: 8,
-    description:
-      "Explore how skilled-trade opportunities influence the movement of job seekers.",
+  {
+    id: "Cheff",
+    name: "CHEFF",
+    color: [123, 223, 206],
+    lat: 15,
+    lon: 45,
   },
-};
+  {
+    id: "Trainer",
+    name: "TRAINER",
+    color: [23, 203, 106],
+    lat: 35,
+    lon: 180,
+  },
+];
 
 function setup() {
-  let canvas = createCanvas(windowWidth, windowHeight);
+  const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("particle-canvas");
   pixelDensity(1);
 
-  createMarket("all");
+  const goldenAngle = PI * (3 - sqrt(5));
 
-  document.getElementById("occupation").addEventListener("change", (e) => {
-    selectedOccupation = e.target.value;
-    createMarket(selectedOccupation);
-  });
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    const y = 1 - (2 * (i + 0.5)) / PARTICLE_COUNT;
+    const ring = sqrt(1 - y * y);
+    const angle = i * goldenAngle;
+
+    sphereParticles.push({
+      x: cos(angle) * ring * RADIUS,
+      y: y * RADIUS,
+      z: sin(angle) * ring * RADIUS,
+      phase: random(TWO_PI),
+      size: random(0.6, 1.4),
+    });
+  }
+
+  for (let occupation of occupations) {
+    const lat = radians(occupation.lat);
+    const lon = radians(occupation.lon);
+
+    jobNodes.push({
+      ...occupation,
+      x: cos(lat) * sin(lon) * RADIUS,
+      y: -sin(lat) * RADIUS,
+      z: cos(lat) * cos(lon) * RADIUS,
+      screenX: 0,
+      screenY: 0,
+      depth: 0,
+    });
+  }
 
   document.getElementById("explore-btn").addEventListener("click", () => {
     window.location.href =
       "simulation.html?occupation=" + encodeURIComponent(selectedOccupation);
   });
-
-  document.getElementById("close-panel").addEventListener("click", () => {
-    document.getElementById("info-panel").classList.add("hidden");
-  });
 }
 
-function createMarket(occupation) {
-  agents = [];
-  opportunities = [];
+function getSphereCenter() {
+  // Centered on desktop and mobile
+  return {
+    x: width * 0.5,
+    y: height * 0.49,
+  };
+}
 
-  const settings = occupationSettings[occupation];
+function rotatePoint(x, y, z) {
+  const cy = cos(rotY);
+  const sy = sin(rotY);
 
-  for (let i = 0; i < settings.jobs; i++) {
-    opportunities.push(new Opportunity());
-  }
+  const x1 = x * cy + z * sy;
+  const z1 = -x * sy + z * cy;
 
-  for (let i = 0; i < settings.agents; i++) {
-    agents.push(new Agent());
-  }
+  const cx = cos(rotX);
+  const sx = sin(rotX);
 
-  document.getElementById("particle-count").textContent =
-    agents.length + " ACTIVE AGENTS";
+  return {
+    x: x1,
+    y: y * cx - z1 * sx,
+    z: y * sx + z1 * cx,
+  };
 }
 
 function draw() {
-  background(8, 14, 23);
+  background(3, 4, 5);
 
-  // Subtle grid
-  stroke(40, 62, 76, 45);
+  if (!dragging) {
+    targetRotY += 0.0015;
+  }
+
+  rotX = lerp(rotX, targetRotX, 0.08);
+  rotY = lerp(rotY, targetRotY, 0.08);
+
+  const center = getSphereCenter();
+  const sphereScale = min(1, width / 850, height / 760);
+
+  const radius = RADIUS * sphereScale;
+
+  // Outer sphere guide
+  noFill();
+  stroke(60, 68, 72, 35);
   strokeWeight(1);
+  circle(center.x, center.y, radius * 2);
 
-  for (let x = 0; x < width; x += 65) {
-    line(x, 0, x, height);
-  }
+  // Draw particles with depth-based opacity
+  noStroke();
 
-  for (let y = 0; y < height; y += 65) {
-    line(0, y, width, y);
-  }
+  for (let p of sphereParticles) {
+    const rotated = rotatePoint(p.x, p.y, p.z);
 
-  for (let job of opportunities) {
-    job.display();
-  }
+    const breathe = sin(frameCount * 0.018 + p.phase) * 1.8;
 
-  for (let agent of agents) {
-    agent.update();
-    agent.display();
-  }
-}
+    const depth = map(rotated.z, -RADIUS, RADIUS, 0, 1);
 
-class Opportunity {
-  constructor() {
-    this.pos = createVector(
-      random(width * 0.35, width * 0.95),
-      random(height * 0.12, height * 0.88)
+    const alpha = 30 + depth * 140;
+
+    fill(165, 184, 188, alpha);
+
+    circle(
+      center.x + rotated.x * sphereScale,
+      center.y + rotated.y * sphereScale,
+      (p.size + breathe * 0.12) * sphereScale
     );
-    this.radius = random(8, 16);
-    this.phase = random(TWO_PI);
   }
 
-  display() {
-    let pulse = sin(frameCount * 0.035 + this.phase) * 4;
+  hoveredNode = null;
+  const renderedNodes = [];
 
+  for (let node of jobNodes) {
+    const rotated = rotatePoint(node.x, node.y, node.z);
+
+    node.screenX = center.x + rotated.x * sphereScale;
+    node.screenY = center.y + rotated.y * sphereScale;
+    node.depth = rotated.z;
+
+    renderedNodes.push(node);
+  }
+
+  // Draw rear nodes first, front nodes last
+  renderedNodes.sort((a, b) => a.depth - b.depth);
+
+  for (let node of renderedNodes) {
+    const front = node.depth > 0;
+    const alpha = front ? 220 : 85;
+
+    // Thin connection from centre
+    stroke(90, 100, 106, front ? 65 : 25);
+    strokeWeight(0.7);
+    line(center.x, center.y, node.screenX, node.screenY);
+
+    const isHovered = dist(mouseX, mouseY, node.screenX, node.screenY) < 16;
+
+    if (isHovered && !dragging && front) {
+      hoveredNode = node;
+    }
+
+    const selected = selectedOccupation === node.id;
+
+    // Outer glow
     noStroke();
+    fill(
+      node.color[0],
+      node.color[1],
+      node.color[2],
+      selected || isHovered ? 65 : 25
+    );
+    circle(node.screenX, node.screenY, selected || isHovered ? 35 : 25);
 
-    fill(139, 217, 196, 12);
-    circle(this.pos.x, this.pos.y, 85 + pulse);
+    // Main coloured node
+    fill(node.color[0], node.color[1], node.color[2], alpha);
+    circle(node.screenX, node.screenY, selected ? 15 : 11);
 
-    fill(139, 217, 196, 25);
-    circle(this.pos.x, this.pos.y, 45 + pulse);
+    // Highlight
+    fill(255, 255, 255, front ? 170 : 50);
+    circle(node.screenX - 2, node.screenY - 2, 3);
 
-    fill(139, 217, 196, 190);
-    circle(this.pos.x, this.pos.y, this.radius * 2);
-
-    fill(230, 255, 248);
-    circle(this.pos.x, this.pos.y, 5);
+    // Selection ring
+    if (selected) {
+      noFill();
+      stroke(255, 255, 255, 140);
+      strokeWeight(0.8);
+      circle(node.screenX, node.screenY, 25);
+    }
   }
+
+  updateTooltip();
 }
 
-class Agent {
-  constructor() {
-    this.pos = createVector(random(width), random(height));
-    this.vel = p5.Vector.random2D().mult(random(0.3, 1.2));
-    this.acc = createVector(0, 0);
-    this.maxSpeed = random(1.1, 2);
-    this.size = random(2, 4.5);
+function updateTooltip() {
+  const tooltip = document.getElementById("node-tooltip");
+
+  if (!hoveredNode) {
+    tooltip.classList.add("hidden");
+    return;
   }
 
-  update() {
-    let nearest = null;
-    let shortestDistance = Infinity;
+  tooltip.classList.remove("hidden");
 
-    for (let job of opportunities) {
-      let d = p5.Vector.dist(this.pos, job.pos);
-      if (d < shortestDistance) {
-        shortestDistance = d;
-        nearest = job;
-      }
-    }
+  document.getElementById("tooltip-name").textContent = hoveredNode.name;
 
-    // Attraction to the nearest job opportunity
-    if (nearest) {
-      let attraction = p5.Vector.sub(nearest.pos, this.pos);
-      attraction.setMag(0.025);
-      this.acc.add(attraction);
-    }
+  document.getElementById("tooltip-number").textContent =
+    "OCCUPATION / " +
+    String(occupations.indexOf(hoveredNode) + 1).padStart(2, "0");
 
-    // Mouse repulsion
-    if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
-      let mouse = createVector(mouseX, mouseY);
-      let distance = p5.Vector.dist(this.pos, mouse);
+  tooltip.style.left = Math.min(mouseX + 20, width - 230) + "px";
 
-      if (distance < 130 && distance > 0) {
-        let repel = p5.Vector.sub(this.pos, mouse);
-        repel.setMag(map(distance, 0, 130, 0.35, 0));
-        this.acc.add(repel);
-      }
-    }
+  tooltip.style.top = Math.min(mouseY + 20, height - 100) + "px";
+}
 
-    // Random wandering creates less predictable movement
-    this.acc.add(p5.Vector.random2D().mult(0.035));
+function mousePressed() {
+  if (mouseX < 0 || mouseX > width || mouseY < 0 || mouseY > height) return;
 
-    this.vel.add(this.acc);
-    this.vel.limit(this.maxSpeed);
-    this.vel.mult(0.985);
-    this.pos.add(this.vel);
-    this.acc.mult(0);
+  dragging = true;
+  dragged = false;
+  lastMouseX = mouseX;
+  lastMouseY = mouseY;
+}
 
-    // Wrap around screen edges
-    if (this.pos.x < 0) this.pos.x = width;
-    if (this.pos.x > width) this.pos.x = 0;
-    if (this.pos.y < 0) this.pos.y = height;
-    if (this.pos.y > height) this.pos.y = 0;
+function mouseDragged() {
+  if (!dragging) return;
+
+  const dx = mouseX - lastMouseX;
+  const dy = mouseY - lastMouseY;
+
+  if (abs(dx) + abs(dy) > 2) {
+    dragged = true;
   }
 
-  display() {
-    noStroke();
-    fill(148, 179, 215, 165);
-    circle(this.pos.x, this.pos.y, this.size);
+  targetRotY += dx * 0.006;
+  targetRotX += dy * 0.006;
 
-    // Connection to nearby opportunities
-    for (let job of opportunities) {
-      let d = p5.Vector.dist(this.pos, job.pos);
+  lastMouseX = mouseX;
+  lastMouseY = mouseY;
 
-      if (d < 115) {
-        stroke(139, 217, 196, map(d, 0, 115, 80, 0));
-        strokeWeight(0.6);
-        line(this.pos.x, this.pos.y, job.pos.x, job.pos.y);
-      }
-    }
+  return false;
+}
+
+function mouseReleased() {
+  if (!dragged && hoveredNode) {
+    selectedOccupation = hoveredNode.id;
+
+    document.getElementById("selected-name").textContent = hoveredNode.name;
+
+    document.getElementById("selected-code").textContent =
+      "MARKET / " + hoveredNode.id.toUpperCase();
   }
+
+  dragging = false;
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  createMarket(selectedOccupation);
 }
