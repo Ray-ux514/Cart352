@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap");
-
 * {
   box-sizing: border-box;
 }
@@ -7,12 +5,13 @@
 html,
 body {
   margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
   background: #030405;
   color: #eeeeee;
-  font-family: "DM Mono", monospace;
+  font-family: Arial, sans-serif;
 }
 
 #simulation-canvas {
@@ -28,114 +27,103 @@ body {
 .interface {
   position: relative;
   z-index: 1;
+  width: 100%;
   height: 100vh;
-  padding: 55px 4%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   pointer-events: none;
 }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+.top-left {
+  position: absolute;
+  top: 55px;
+  left: 5%;
+  max-width: 280px;
 }
 
-.project-info {
-  max-width: 310px;
-}
-
-.eyebrow,
-.label {
+.small-label,
+.bottom-left p,
+.bottom-right p {
+  font-family: monospace;
   font-size: 10px;
   letter-spacing: 2px;
-  color: #8a9299;
+  color: #8d969e;
 }
 
 h1 {
-  font-family: "Space Grotesk", sans-serif;
   font-size: 34px;
   font-weight: 400;
   letter-spacing: -1px;
-  margin: 15px 0;
+  margin: 16px 0;
 }
 
 h1 span {
-  color: #72dfc4;
+  color: #5dbaff;
 }
 
 .description {
+  font-family: monospace;
   font-size: 11px;
   line-height: 1.9;
-  color: #7d858c;
+  color: #7b858d;
 }
 
-.back-link {
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: #aaa;
+.back-button {
+  position: absolute;
+  top: 60px;
+  right: 5%;
+  color: #aaaaaa;
+  font-family: monospace;
+  font-size: 11px;
   text-decoration: none;
+  letter-spacing: 1px;
   pointer-events: auto;
 }
 
-.back-link:hover {
-  color: #72dfc4;
+.back-button:hover {
+  color: #ffffff;
 }
 
-.occupation-display {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-self: flex-start;
-  padding-left: 18px;
-  border-left: 1px solid #45535a;
+.bottom-left {
+  position: absolute;
+  bottom: 55px;
+  left: 5%;
 }
 
-.occupation-display strong {
-  font-size: 14px;
+.bottom-left h2 {
+  font-size: 15px;
   font-weight: 400;
-}
-
-#agent-count {
-  color: #777;
-  font-size: 10px;
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 10px;
-  color: #777;
   letter-spacing: 1px;
 }
 
-footer p {
-  color: #ccc;
-  margin-bottom: 15px;
-}
-
-footer span {
+.bottom-left span,
+.bottom-right span {
   display: block;
-  margin-top: 8px;
+  font-family: monospace;
+  font-size: 10px;
+  color: #7b858d;
+  margin-top: 10px;
 }
 
-.instructions {
+.bottom-right {
+  position: absolute;
+  bottom: 55px;
+  right: 5%;
   text-align: right;
 }
 
 @media (max-width: 700px) {
-  .interface {
-    padding: 28px 22px;
+  .top-left {
+    top: 25px;
+  }
+  .back-button {
+    top: 30px;
+  }
+  .bottom-left {
+    bottom: 30px;
+  }
+  .bottom-right {
+    display: none;
   }
   h1 {
     font-size: 26px;
-  }
-  .description {
-    max-width: 220px;
-  }
-  .instructions {
-    display: none;
   }
 }

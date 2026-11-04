@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Market Simulation | Future of Work</title>
+    <title>Labour Market Simulation</title>
 
     <link rel="stylesheet" href="simulation.css" />
 
@@ -14,40 +14,30 @@
   <body>
     <div id="simulation-canvas"></div>
 
-    <main class="interface">
-      <header>
-        <div class="project-info">
-          <p class="eyebrow">EXP_02 // LABOUR MARKET SIMULATION</p>
-          <h1>Market in Motion<span>.</span></h1>
-          <p class="description">
-            A living network of job seekers and opportunities. Observe how
-            individual agents respond to a constantly changing environment.
-          </p>
-        </div>
-
-        <a href="index.html" class="back-link"> ← BACK TO ATLAS </a>
-      </header>
-
-      <div class="occupation-display">
-        <span class="label">ACTIVE OCCUPATION</span>
-        <strong id="active-occupation">ALL OCCUPATIONS</strong>
-        <span id="agent-count">0 PARTICLES</span>
+    <div class="interface">
+      <div class="top-left">
+        <p class="small-label">LABOUR MARKET / SIMULATION 001</p>
+        <h1>THE WORKFORCE<span>.</span></h1>
+        <p class="description">
+          An interactive simulation exploring the relationship between job
+          seekers and employment opportunities.
+        </p>
       </div>
 
-      <footer>
-        <div class="legend">
-          <p>PARTICLE FIELD // ACTIVE</p>
-          <span>● FLOATING AGENTS</span>
-          <span>● OCCUPATION NODES</span>
-        </div>
+      <a class="back-button" href="index.html"> ← BACK TO ATLAS </a>
 
-        <div class="instructions">
-          <p>INTERACTION PROTOCOL</p>
-          <span>[ MOVE ] DISTURB PARTICLES</span>
-          <span>[ CLICK ] ATTRACT PARTICLES</span>
-        </div>
-      </footer>
-    </main>
+      <div class="bottom-left">
+        <p>ACTIVE OCCUPATION</p>
+        <h2 id="occupation-name">SOFTWARE DEVELOPER</h2>
+        <span>01 NODE / 400 AGENTS</span>
+      </div>
+
+      <div class="bottom-right">
+        <p>INTERACTION PROTOCOL</p>
+        <span>MOVE CURSOR TO DISTURB PARTICLES</span>
+        <span>HOLD CLICK TO ATTRACT PARTICLES</span>
+      </div>
+    </div>
 
     <script src="simulation.js"></script>
   </body>

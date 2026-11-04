@@ -1,220 +1,161 @@
 let particles = [];
-let nodes = [];
 
-const PARTICLE_COUNT = 450;
+const PARTICLE_COUNT = 400;
+const FIELD_RADIUS = 230;
 
-const occupations = [
-  { id: "designer", name: "GRAPHIC DESIGNER", color: [239, 117, 57] },
-  { id: "developer", name: "SOFTWARE DEVELOPER", color: [65, 146, 255] },
-  { id: "nurse", name: "REGISTERED NURSE", color: [69, 206, 236] },
-  { id: "teacher", name: "TEACHER", color: [248, 205, 103] },
-  { id: "electrician", name: "ELECTRICIAN", color: [114, 223, 196] },
-  { id: "chef", name: "CHEF", color: [255, 100, 150] },
-];
-
-let activeOccupation = "all";
+let nodeColor = [93, 186, 255];
+let occupationName = "SOFTWARE DEVELOPER";
 
 function setup() {
-  const canvas = createCanvas(windowWidth, windowHeight);
+  let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("simulation-canvas");
 
+  // Get occupation selected on homepage
   const params = new URLSearchParams(window.location.search);
-  const requested = params.get("occupation");
+  const selected = params.get("occupation");
 
-  if (occupations.some((o) => o.id === requested)) {
-    activeOccupation = requested;
+  const occupations = {
+    designer: {
+      name: "GRAPHIC DESIGNER",
+      color: [239, 117, 57],
+    },
+    developer: {
+      name: "SOFTWARE DEVELOPER",
+      color: [93, 186, 255],
+    },
+    nurse: {
+      name: "REGISTERED NURSE",
+      color: [69, 206, 236],
+    },
+    teacher: {
+      name: "TEACHER",
+      color: [248, 205, 103],
+    },
+    electrician: {
+      name: "ELECTRICIAN",
+      color: [114, 223, 196],
+    },
+    chef: {
+      name: "CHEF",
+      color: [255, 100, 150],
+    },
+  };
+
+  if (selected && occupations[selected]) {
+    occupationName = occupations[selected].name;
+    nodeColor = occupations[selected].color;
   }
 
+  document.getElementById("occupation-name").textContent = occupationName;
+
+  // Create particles
   for (let i = 0; i < PARTICLE_COUNT; i++) {
     particles.push(new Particle());
   }
-
-  for (let occupation of occupations) {
-    if (activeOccupation === "all" || activeOccupation === occupation.id) {
-      nodes.push(new JobNode(occupation));
-    }
-  }
-
-  document.getElementById("active-occupation").textContent =
-    activeOccupation === "all"
-      ? "ALL OCCUPATIONS"
-      : occupations.find((o) => o.id === activeOccupation).name;
-
-  document.getElementById("agent-count").textContent =
-    PARTICLE_COUNT + " ACTIVE PARTICLES";
 }
 
 function draw() {
-  background(3, 4, 5, 65);
+  background(3, 4, 5);
 
-  // Draw floating nodes
-  for (let node of nodes) {
-    node.update();
-    node.display();
-  }
+  let cx = width / 2;
+  let cy = height / 2;
 
-  // Draw particle field
+  // Very subtle outer circle
+  noFill();
+  stroke(100, 120, 135, 25);
+  strokeWeight(0.5);
+  circle(cx, cy, FIELD_RADIUS * 2);
+
+  // Draw particles
   for (let particle of particles) {
     particle.update();
     particle.display();
   }
+
+  // Draw central occupation node
+  drawJobNode(cx, cy);
 }
 
-class JobNode {
-  constructor(occupation) {
-    this.name = occupation.name;
-    this.color = occupation.color;
+function drawJobNode(x, y) {
+  noStroke();
 
-    this.pos = createVector(
-      random(width * 0.25, width * 0.85),
-      random(height * 0.2, height * 0.8)
-    );
+  // Soft glow
+  fill(...nodeColor, 10);
+  circle(x, y, 70);
 
-    this.vel = p5.Vector.random2D().mult(0.5);
-    this.phase = random(TWO_PI);
-    this.radius = 7;
-  }
+  fill(...nodeColor, 25);
+  circle(x, y, 40);
 
-  update() {
-    // Smooth orbital wandering
-    this.vel.add(
-      createVector(
-        sin(frameCount * 0.008 + this.phase) * 0.015,
-        cos(frameCount * 0.01 + this.phase) * 0.015
-      )
-    );
+  // Outer ring
+  noFill();
+  stroke(...nodeColor, 100);
+  strokeWeight(1);
+  circle(x, y, 24);
 
-    this.vel.limit(0.7);
-    this.pos.add(this.vel);
+  // Central node
+  noStroke();
+  fill(...nodeColor);
+  circle(x, y, 10);
 
-    // Bounce at edges
-    if (this.pos.x < 80 || this.pos.x > width - 80) {
-      this.vel.x *= -1;
-      this.pos.x = constrain(this.pos.x, 80, width - 80);
-    }
-
-    if (this.pos.y < 80 || this.pos.y > height - 80) {
-      this.vel.y *= -1;
-      this.pos.y = constrain(this.pos.y, 80, height - 80);
-    }
-  }
-
-  display() {
-    const pulse = sin(frameCount * 0.04 + this.phase) * 4;
-
-    noStroke();
-
-    // Outer glow
-    fill(...this.color, 12);
-    circle(this.pos.x, this.pos.y, 65 + pulse);
-
-    fill(...this.color, 35);
-    circle(this.pos.x, this.pos.y, 30 + pulse);
-
-    // Core node
-    fill(...this.color, 220);
-    circle(this.pos.x, this.pos.y, this.radius * 2);
-
-    fill(255, 230);
-    circle(this.pos.x, this.pos.y, 3);
-  }
+  fill(255);
+  circle(x, y, 3);
 }
 
 class Particle {
   constructor() {
-    this.pos = createVector(random(width), random(height));
-    this.vel = p5.Vector.random2D().mult(random(0.2, 1));
-    this.acc = createVector(0, 0);
+    this.angle = random(TWO_PI);
+    this.radius = random(30, FIELD_RADIUS);
 
+    this.speed = random(0.001, 0.006);
     this.size = random(1, 2.5);
-    this.speed = random(0.7, 1.7);
-    this.phase = random(TWO_PI);
+
+    this.offset = random(TWO_PI);
+
+    this.x = width / 2;
+    this.y = height / 2;
   }
 
   update() {
-    // Find nearest occupation node
-    let nearest = null;
-    let shortest = Infinity;
+    let cx = width / 2;
+    let cy = height / 2;
 
-    for (let node of nodes) {
-      let d = p5.Vector.dist(this.pos, node.pos);
+    // Continuous orbiting motion
+    this.angle += this.speed;
 
-      if (d < shortest) {
-        shortest = d;
-        nearest = node;
-      }
-    }
+    // Slight natural floating movement
+    let floating = sin(frameCount * 0.01 + this.offset) * 8;
 
-    // Gentle attraction to occupation nodes
-    if (nearest && shortest > 25) {
-      let force = p5.Vector.sub(nearest.pos, this.pos);
-      force.setMag(0.012);
-      this.acc.add(force);
-    }
+    let targetX = cx + cos(this.angle) * (this.radius + floating);
 
-    // Orbit instead of directly colliding
-    if (nearest && shortest < 140 && shortest > 5) {
-      let direction = p5.Vector.sub(nearest.pos, this.pos);
-      let tangent = createVector(-direction.y, direction.x);
-      tangent.setMag(0.025);
-      this.acc.add(tangent);
-    }
+    let targetY = cy + sin(this.angle) * (this.radius + floating);
 
     // Mouse interaction
-    if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
-      let mouse = createVector(mouseX, mouseY);
-      let d = p5.Vector.dist(this.pos, mouse);
+    let d = dist(mouseX, mouseY, targetX, targetY);
 
-      if (d < 150 && d > 0) {
-        let force = p5.Vector.sub(mouse, this.pos);
+    if (d < 100 && d > 0) {
+      let force = map(d, 0, 100, 35, 0);
 
-        if (mouseIsPressed) {
-          force.setMag(0.12);
-        } else {
-          force.mult(-1);
-          force.setMag(0.15);
-        }
+      let direction = atan2(targetY - mouseY, targetX - mouseX);
 
-        this.acc.add(force);
+      if (mouseIsPressed) {
+        direction += PI;
       }
+
+      targetX += cos(direction) * force;
+      targetY += sin(direction) * force;
     }
 
-    // Random natural movement
-    this.acc.add(p5.Vector.random2D().mult(0.025));
-
-    this.vel.add(this.acc);
-    this.vel.limit(this.speed);
-    this.vel.mult(0.99);
-
-    this.pos.add(this.vel);
-    this.acc.mult(0);
-
-    // Wrap around screen
-    if (this.pos.x < 0) this.pos.x = width;
-    if (this.pos.x > width) this.pos.x = 0;
-    if (this.pos.y < 0) this.pos.y = height;
-    if (this.pos.y > height) this.pos.y = 0;
+    // Smooth particle movement
+    this.x = lerp(this.x, targetX, 0.12);
+    this.y = lerp(this.y, targetY, 0.12);
   }
 
   display() {
-    let brightness = 90 + sin(frameCount * 0.025 + this.phase) * 45;
+    let opacity = 100 + sin(frameCount * 0.02 + this.offset) * 55;
 
     noStroke();
-    fill(170, 195, 210, brightness);
-    circle(this.pos.x, this.pos.y, this.size);
-
-    // Connections to nearby job nodes
-    for (let node of nodes) {
-      let d = p5.Vector.dist(this.pos, node.pos);
-
-      if (d < 85) {
-        stroke(...node.color, map(d, 0, 85, 75, 0));
-
-        strokeWeight(0.5);
-
-        line(this.pos.x, this.pos.y, node.pos.x, node.pos.y);
-      }
-    }
+    fill(190, 210, 225, opacity);
+    circle(this.x, this.y, this.size);
   }
 }
 

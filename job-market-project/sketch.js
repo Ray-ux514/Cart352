@@ -1,3 +1,9 @@
+let zoom = 1;
+let targetZoom = 1;
+
+const MIN_ZOOM = 0.6;
+const MAX_ZOOM = 2.5;
+
 let sphereParticles = [];
 let jobNodes = [];
 
@@ -147,9 +153,15 @@ function draw() {
   rotY = lerp(rotY, targetRotY, 0.08);
 
   const center = getSphereCenter();
-  const sphereScale = min(1, width / 850, height / 760);
+  // Smooth zoom animation
+  zoom = lerp(zoom, targetZoom, 0.3);
+
+  // Responsive sphere size with zoom
+  const sphereScale = min(1, width / 850, height / 760) * zoom;
 
   const radius = RADIUS * sphereScale;
+
+  //Zoom
 
   // Outer sphere guide
   noFill();
@@ -305,4 +317,16 @@ function mouseReleased() {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
+}
+
+function mouseWheel(event) {
+  // Scroll up = zoom in
+  // Scroll down = zoom out
+  targetZoom -= event.delta * 0.001;
+
+  // Keep zoom within limits
+  targetZoom = constrain(targetZoom, MIN_ZOOM, MAX_ZOOM);
+
+  // Prevent normal page scrolling
+  return false;
 }
