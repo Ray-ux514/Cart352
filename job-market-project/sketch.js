@@ -60,10 +60,8 @@ function setup() {
   });
 
   document.getElementById("explore-btn").addEventListener("click", () => {
-    const data = occupationSettings[selectedOccupation];
-    document.getElementById("panel-title").textContent = data.name;
-    document.getElementById("panel-description").textContent = data.description;
-    document.getElementById("info-panel").classList.remove("hidden");
+    window.location.href =
+      "simulation.html?occupation=" + encodeURIComponent(selectedOccupation);
   });
 
   document.getElementById("close-panel").addEventListener("click", () => {
