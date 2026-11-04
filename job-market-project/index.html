@@ -3,39 +3,61 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canadian Job Market</title>
+    <title>Future of Work | Canada</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.11/p5.min.js"></script>
   </head>
   <body>
-    <main class="homepage">
-      <div class="content">
-        <p class="subtitle">AN INTERACTIVE DATA EXPERIENCE</p>
+    <div id="particle-canvas"></div>
 
-        <h1>THE FUTURE<br />OF WORK</h1>
+    <main class="homepage">
+      <div class="topbar">
+        <span class="logo">FUTURE / WORK</span>
+        <span class="edition">CANADA — 2026</span>
+      </div>
+
+      <section class="hero">
+        <p class="eyebrow">AN INTERACTIVE LABOUR MARKET EXPERIENCE</p>
+
+        <h1>The Future<br />of <em>Work.</em></h1>
 
         <p class="description">
-          Explore Canada's evolving job market. Discover how employment
-          opportunities, competition, and artificial intelligence are shaping
-          the future of work.
+          An exploration of people, opportunity, and artificial intelligence in
+          Canada's evolving job market.
         </p>
 
-        <label for="occupation">Choose an occupation</label>
+        <div class="controls">
+          <label for="occupation">SELECT AN OCCUPATION</label>
+          <select id="occupation">
+            <option value="all">Explore all occupations</option>
+            <option value="designer">Graphic Designer</option>
+            <option value="developer">Software Developer</option>
+            <option value="nurse">Registered Nurse</option>
+            <option value="teacher">Teacher</option>
+            <option value="electrician">Electrician</option>
+          </select>
 
-        <select id="occupation">
-          <option value="">Select an occupation</option>
-          <option value="graphic-designer">Graphic Designer</option>
-          <option value="software-developer">Software Developer</option>
-          <option value="nurse">Nurse</option>
-          <option value="teacher">Teacher</option>
-          <option value="electrician">Electrician</option>
-        </select>
+          <button id="explore-btn">Explore the Market ↗</button>
+        </div>
+      </section>
 
-        <button id="startButton">START EXPLORING →</button>
-
-        <p id="message"></p>
+      <div class="footer">
+        <span>MOVE YOUR CURSOR TO INTERACT</span>
+        <span id="particle-count">0 ACTIVE AGENTS</span>
       </div>
     </main>
 
-    <script src="script.js"></script>
+    <div id="info-panel" class="info-panel hidden">
+      <button id="close-panel" aria-label="Close panel">×</button>
+      <p class="eyebrow">MARKET EXPLORER</p>
+      <h2 id="panel-title">All Occupations</h2>
+      <p id="panel-description"></p>
+      <p class="data-note">
+        Prototype simulation. Particle counts are illustrative, not real
+        employment statistics.
+      </p>
+    </div>
+
+    <script src="sketch.js"></script>
   </body>
 </html>
