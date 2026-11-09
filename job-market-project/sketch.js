@@ -1,8 +1,8 @@
 let zoom = 1;
 let targetZoom = 1;
 
-const MIN_ZOOM = 0.6;
-const MAX_ZOOM = 2.5;
+const MIN_ZOOM = 0.4;
+const MAX_ZOOM = 10;
 
 let sphereParticles = [];
 let jobNodes = [];
@@ -99,12 +99,12 @@ const occupations = [
 function setup() {
   const canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("particle-canvas");
-  pixelDensity(1);
+  pixelDensity(10);
 
   const goldenAngle = PI * (3 - sqrt(5));
 
   for (let i = 0; i < PARTICLE_COUNT; i++) {
-    const y = 1 - (2 * (i + 0.5)) / PARTICLE_COUNT;
+    const y = 1 - (3 * (i + 0.5)) / PARTICLE_COUNT;
     const ring = sqrt(1 - y * y);
     const angle = i * goldenAngle;
 
@@ -142,7 +142,7 @@ function getSphereCenter() {
   // Centered on desktop and mobile
   return {
     x: width * 0.5,
-    y: height * 0.49,
+    y: height * 0.5,
   };
 }
 
@@ -200,7 +200,7 @@ function draw() {
 
     const depth = map(rotated.z, -RADIUS, RADIUS, 0, 1);
 
-    const alpha = 30 + depth * 140;
+    const alpha = 30 + depth * 180;
 
     fill(165, 184, 188, alpha);
 

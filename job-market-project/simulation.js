@@ -1,7 +1,7 @@
 let particles = [];
 
-const PARTICLE_COUNT = 400;
-const FIELD_RADIUS = 230;
+const PARTICLE_COUNT = 280;
+const FIELD_RADIUS = 1000;
 
 let nodeColor = [93, 186, 255];
 let occupationName = "SOFTWARE DEVELOPER";
@@ -107,7 +107,7 @@ class Particle {
     this.radius = random(30, FIELD_RADIUS);
 
     this.speed = random(0.001, 0.006);
-    this.size = random(2, 4.5);
+    this.size = random(4, 4.5);
 
     this.offset = random(TWO_PI);
 
