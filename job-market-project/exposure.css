@@ -1,1 +1,146 @@
-*{box-sizing:border-box}body{margin:0;background:#050507;color:#eee;font-family:monospace;overflow:hidden}#scene{position:fixed;inset:0;z-index:0}header,aside,nav{position:fixed;z-index:1;pointer-events:none}header{top:28px;left:30px}h1{font-size:clamp(22px,3vw,36px);font-weight:400;margin:8px 0 12px}small{letter-spacing:2px;color:#aaa}select,a{pointer-events:auto;color:#ddd;background:#101014;border:1px solid #444;padding:9px;font:inherit;text-decoration:none}aside{bottom:75px;left:30px;width:290px}aside p{font-size:11px;color:#999;line-height:1.5}.stat{margin:10px 0}.stat b{font-size:23px;font-weight:400;margin-right:10px}nav{bottom:20px;left:30px;right:30px;display:flex;justify-content:space-between;align-items:center;font-size:11px}canvas{display:block}@media(max-width:600px){header,aside{left:16px}nav{left:16px;right:16px}nav span{max-width:115px;text-align:right}aside{bottom:65px;width:240px}.stat b{font-size:17px}}
+/* =========================================
+   01. GLOBAL STYLES
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #050507;
+  color: #eee;
+  font-family: monospace;
+  overflow: hidden;
+}
+
+/* =========================================
+   02. SIMULATION AND CANVAS
+========================================= */
+
+#scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+canvas {
+  display: block;
+}
+
+/* =========================================
+   03. INTERFACE POSITIONING
+========================================= */
+
+header,
+aside,
+nav {
+  position: fixed;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* =========================================
+   04. HEADER AND TYPOGRAPHY
+========================================= */
+
+header {
+  top: 28px;
+  left: 30px;
+}
+
+h1 {
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 400;
+  margin: 8px 0 12px;
+}
+
+small {
+  letter-spacing: 2px;
+  color: #aaa;
+}
+
+/* =========================================
+   05. BUTTONS AND DROPDOWN
+========================================= */
+
+select,
+a {
+  pointer-events: auto;
+  color: #ddd;
+  background: #101014;
+  border: 1px solid #444;
+  padding: 9px;
+  font: inherit;
+  text-decoration: none;
+}
+
+/* =========================================
+   06. DATA VISUALIZATION PANEL
+========================================= */
+
+aside {
+  bottom: 75px;
+  left: 30px;
+  width: 290px;
+}
+
+aside p {
+  font-size: 11px;
+  color: #999;
+  line-height: 1.5;
+}
+
+.stat {
+  margin: 10px 0;
+}
+
+.stat b {
+  font-size: 23px;
+  font-weight: 400;
+  margin-right: 10px;
+}
+
+/* =========================================
+   07. BOTTOM NAVIGATION
+========================================= */
+
+nav {
+  bottom: 20px;
+  left: 30px;
+  right: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+}
+
+/* =========================================
+   08. MOBILE RESPONSIVENESS
+========================================= */
+
+@media (max-width: 600px) {
+  header,
+  aside {
+    left: 16px;
+  }
+
+  nav {
+    left: 16px;
+    right: 16px;
+  }
+
+  nav span {
+    max-width: 115px;
+    text-align: right;
+  }
+
+  aside {
+    bottom: 65px;
+    width: 240px;
+  }
+
+  .stat b {
+    font-size: 17px;
+  }
+}
