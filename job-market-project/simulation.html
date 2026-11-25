@@ -2,43 +2,64 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Labour Market Simulation</title>
-
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="simulation.css" />
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.11/p5.min.js"></script>
   </head>
-
   <body>
     <div id="simulation-canvas"></div>
-
-    <div class="interface">
-      <div class="top-left">
-        <p class="small-label">LABOUR MARKET / SIMULATION 001</p>
-        <h1>THE WORKFORCE<span>.</span></h1>
-        <p class="description">
-          An interactive simulation exploring the relationship between job
-          seekers and employment opportunities.
-        </p>
-      </div>
-
-      <a class="back-button" href="index.html"> ← BACK TO HOMEPAGE</a>
-
-      <div class="bottom-left">
-        <p>ACTIVE OCCUPATION</p>
-        <h2 id="occupation-name">SOFTWARE DEVELOPER</h2>
-        <span>01 NODE / 400 AGENTS</span>
-      </div>
-
-      <div class="bottom-right">
-        <p>INTERACTION PROTOCOL</p>
-        <span>MOVE CURSOR TO DISTURB PARTICLES</span>
-        <span>HOLD CLICK TO ATTRACT PARTICLES</span>
-      </div>
-    </div>
-
+    <main class="interface">
+      <header class="topbar">
+        <div>
+          <p class="small-label">LABOUR MARKET / SIMULATION 001</p>
+          <h1>THE WORKFORCE<span>.</span></h1>
+          <p class="description">
+            An interactive simulation exploring the relationship between job
+            seekers and employment opportunities.
+          </p>
+          <div class="search">
+            <input
+              id="search"
+              placeholder="SEARCH OCCUPATION / NOC"
+              autocomplete="off"
+              aria-label="Search occupations"
+            />
+            <div id="results" hidden></div>
+          </div>
+        </div>
+        <a class="back-button" href="index.html">← BACK TO HOMEPAGE</a>
+      </header>
+      <section class="stats">
+        <p class="small-label">ACTIVE OCCUPATION</p>
+        <h2 id="occupation-name"></h2>
+        <p id="counts"></p>
+        <p id="ratio"></p>
+        <p id="outlook"></p>
+        <label
+          >REFERENCE PERIOD
+          <select id="year">
+            <option value="total">2026–2035</option>
+          </select></label
+        >
+        <p id="scale"></p>
+        <p>● <span class="blue">OPENINGS</span> / ○ SEEKERS</p>
+      </section>
+      <footer class="bottom-panel">
+        <div class="technical-info">
+          SOURCE: ESDC / COPS<br />PROJECTED FLOWS, NOT CURRENT VACANCIES<br />ILLUSTRATIVE
+          AGENT BEHAVIOUR
+        </div>
+        <a id="ai-link" class="ai-link" href="exposure.html"
+          >POTENTIAL AI IMPACT ↗</a
+        >
+        <div class="interaction-info">
+          INTERACTION PROTOCOL<br />MOVE CURSOR TO DISTURB PARTICLES<br />HOLD
+          CLICK TO ATTRACT PARTICLES
+        </div>
+      </footer>
+    </main>
     <script src="simulation.js"></script>
   </body>
 </html>
