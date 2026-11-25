@@ -78,7 +78,7 @@ function gaussian() {
 
 async function loadData() {
   try {
-    const response = await fetch("./occupations.json");
+    const response = await fetch("./data/occupations.json");
 
     if (!response.ok) {
       throw new Error("Unable to load occupations.json");
