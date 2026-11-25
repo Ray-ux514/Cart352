@@ -24,76 +24,42 @@ const PARTICLE_COUNT = 2800;
 const RADIUS = 245;
 
 const occupations = [
-  {
-    id: "designer",
-    name: "GRAPHIC DESIGNER",
-    color: [239, 117, 57],
-    lat: 28,
-    lon: -125,
-  },
-  {
-    id: "developer",
-    name: "SOFTWARE DEVELOPER",
-    color: [65, 146, 255],
-    lat: 48,
-    lon: 25,
-  },
-  {
-    id: "nurse",
-    name: "REGISTERED NURSE",
-    color: [69, 206, 236],
-    lat: 5,
-    lon: 80,
-  },
-  {
-    id: "teacher",
-    name: "TEACHER",
-    color: [248, 205, 103],
-    lat: -35,
-    lon: 45,
-  },
-  {
-    id: "electrician",
-    name: "ELECTRICIAN",
-    color: [114, 223, 196],
-    lat: -55,
-    lon: -110,
-  },
-  {
-    id: "Cheff",
-    name: "CHEFF",
-    color: [123, 223, 206],
-    lat: 15,
-    lon: 45,
-  },
-  {
-    id: "Trainer",
-    name: "TRAINER",
-    color: [23, 203, 106],
-    lat: 35,
-    lon: 180,
-  },
-  {
-    id: "Athlete",
-    name: "ATHLETE",
-    color: [273, 13, 26],
-    lat: -5,
-    lon: 85,
-  },
-  {
-    id: "VFX Artisit",
-    name: "VFX ARTIST",
-    color: [173, 63, 46],
-    lat: -35,
-    lon: 95,
-  },
-  {
-    id: "Translator",
-    name: "TRANSLATOR",
-    color: [203, 33, 95],
-    lat: -135,
-    lon: 85,
-  },
+  // ORIGINAL OCCUPATIONS
+  { id: "52120", name: "GRAPHIC DESIGNER", color: [239, 117, 57] },
+  { id: "21232", name: "SOFTWARE DEVELOPER", color: [65, 146, 255] },
+  { id: "31301", name: "REGISTERED NURSE", color: [69, 206, 236] },
+  { id: "41220", name: "SECONDARY SCHOOL TEACHER", color: [248, 205, 103] },
+  { id: "72200", name: "ELECTRICIAN", color: [114, 223, 196] },
+  { id: "62200", name: "CHEF", color: [123, 223, 206] },
+
+  // TECHNOLOGY
+  { id: "21211", name: "DATA SCIENTIST", color: [155, 122, 255] },
+  { id: "21231", name: "SOFTWARE ENGINEER", color: [102, 140, 255] },
+  { id: "21233", name: "WEB DESIGNER", color: [232, 138, 203] },
+
+  // ENGINEERING
+  { id: "21300", name: "CIVIL ENGINEER", color: [128, 185, 160] },
+  { id: "21301", name: "MECHANICAL ENGINEER", color: [176, 189, 206] },
+
+  // HEALTHCARE
+  { id: "31102", name: "FAMILY PHYSICIAN", color: [255, 116, 116] },
+  { id: "31110", name: "DENTIST", color: [166, 229, 255] },
+  { id: "31202", name: "PHYSIOTHERAPIST", color: [112, 214, 160] },
+
+  // BUSINESS
+  { id: "11100", name: "ACCOUNTANT", color: [214, 188, 120] },
+  { id: "11202", name: "MARKETING PROFESSIONAL", color: [255, 156, 105] },
+
+  // LEGAL AND SOCIAL SERVICES
+  { id: "41101", name: "LAWYER", color: [176, 140, 219] },
+  { id: "41300", name: "SOCIAL WORKER", color: [238, 159, 159] },
+
+  // SKILLED TRADES
+  { id: "72310", name: "CARPENTER", color: [201, 155, 115] },
+  { id: "72410", name: "AUTOMOTIVE MECHANIC", color: [129, 155, 173] },
+
+  // LANGUAGE AND COMMUNICATION
+  { id: "51114", name: "TRANSLATOR", color: [205, 229, 124] },
 ];
 
 function setup() {

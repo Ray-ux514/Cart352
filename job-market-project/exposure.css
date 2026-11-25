@@ -1,7 +1,3 @@
-/* =========================================
-   01. GLOBAL STYLES
-========================================= */
-
 * {
   box-sizing: border-box;
 }
@@ -14,10 +10,6 @@ body {
   overflow: hidden;
 }
 
-/* =========================================
-   02. SIMULATION AND CANVAS
-========================================= */
-
 #scene {
   position: fixed;
   inset: 0;
@@ -28,10 +20,6 @@ canvas {
   display: block;
 }
 
-/* =========================================
-   03. INTERFACE POSITIONING
-========================================= */
-
 header,
 aside,
 nav {
@@ -39,10 +27,6 @@ nav {
   z-index: 1;
   pointer-events: none;
 }
-
-/* =========================================
-   04. HEADER AND TYPOGRAPHY
-========================================= */
 
 header {
   top: 28px;
@@ -59,10 +43,6 @@ small {
   letter-spacing: 2px;
   color: #aaa;
 }
-
-/* =========================================
-   05. BUTTONS AND DROPDOWN
-========================================= */
 
 select,
 a {
@@ -100,10 +80,6 @@ aside p {
   font-weight: 400;
   margin-right: 10px;
 }
-
-/* =========================================
-   07. BOTTOM NAVIGATION
-========================================= */
 
 nav {
   bottom: 20px;
