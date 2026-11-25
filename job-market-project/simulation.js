@@ -79,7 +79,6 @@ function gaussian() {
 async function loadData() {
   try {
     const response = await fetch("./data/occupations.json");
-
     if (!response.ok) {
       throw new Error("Unable to load occupations.json");
     }
@@ -87,12 +86,11 @@ async function loadData() {
     const data = await response.json();
     const source = data.occupations || data;
 
-    occupations = Array.isArray(source)
-      ? source
-      : Object.entries(source).map(([key, value]) => ({
-          ...value,
-          key,
-        }));
+    occupations = Object.entries(source).map(([key, value]) => ({
+      ...value,
+      key: key,
+      noc: String(value.id || key),
+    }));
 
     occupations = occupations
       .filter((item) => item && item.noc != null)
@@ -226,15 +224,19 @@ document.addEventListener("click", (event) => {
 function selectOccupation(occupation) {
   activeOccupation = occupation;
 
-  annualData = (occupation.annual || [])
+  annualData = Object.entries(occupation.annual || {})
+    .map(([year, values]) => ({
+      ...values,
+      year: Number(year),
+    }))
     .filter(
       (entry) =>
-        Number(entry.year) >= 2026 &&
-        Number(entry.year) <= 2035 &&
+        entry.year >= 2026 &&
+        entry.year <= 2035 &&
         entry.openings != null &&
         entry.seekers != null
     )
-    .sort((a, b) => Number(a.year) - Number(b.year));
+    .sort((a, b) => a.year - b.year);
 
   $("search").value = occupationName(occupation);
 
