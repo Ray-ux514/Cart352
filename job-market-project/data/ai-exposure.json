@@ -1,0 +1,26 @@
+{
+  "00000": {
+    "shares": [
+      31,
+      29,
+      40
+    ],
+    "basis": "Canadian employees, May 2021; national distribution (not task shares).",
+    "source": "Statistics Canada 2024, abstract and conclusion"
+  },
+  "41220": {
+    "group": 1,
+    "basis": "Historical secondary school teachers category (NOC 2016 4031); matching occupation title.",
+    "source": "Statistics Canada 2024, Figure 1, p. 13"
+  },
+  "21232": {
+    "group": 0,
+    "basis": "Broader historical computer programmers and interactive media developers category (NOC 2016 2174); proxy, not an exact current NOC score.",
+    "source": "Statistics Canada 2024, Figure 1, p. 13"
+  },
+  "31301": {
+    "group": 1,
+    "basis": "Broader professional occupations in nursing group (NOC 2016 30); proxy, not an individual occupation score.",
+    "source": "Statistics Canada 2024, appendix table, May 2021"
+  }
+}
