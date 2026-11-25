@@ -21,7 +21,7 @@ let hoveredNode = null;
 let selectedOccupation = "all";
 
 const PARTICLE_COUNT = 2800;
-const RADIUS = 245;
+const RADIUS = 350;
 
 const occupations = [
   // ORIGINAL OCCUPATIONS
