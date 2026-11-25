@@ -2,23 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Labour Market Simulation</title>
-    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="simulation.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.11/p5.min.js"></script>
   </head>
+
   <body>
-    <div id="simulation-canvas"></div>
+    <div id="simulation-canvas">
+      <canvas id="workforce"></canvas>
+    </div>
+
     <main class="interface">
       <header class="topbar">
         <div>
           <p class="small-label">LABOUR MARKET / SIMULATION 001</p>
+
           <h1>THE WORKFORCE<span>.</span></h1>
+
           <p class="description">
             An interactive simulation exploring the relationship between job
             seekers and employment opportunities.
           </p>
+
           <div class="search">
             <input
               id="search"
@@ -29,37 +34,83 @@
             <div id="results" hidden></div>
           </div>
         </div>
-        <a class="back-button" href="index.html">← BACK TO HOMEPAGE</a>
+
+        <a class="back-button" href="index.html"> ← BACK TO HOMEPAGE </a>
       </header>
+
       <section class="stats">
         <p class="small-label">ACTIVE OCCUPATION</p>
-        <h2 id="occupation-name"></h2>
-        <p id="counts"></p>
-        <p id="ratio"></p>
+
+        <h2 id="occupation-name">Loading occupations...</h2>
+        <p id="noc"></p>
+
+        <div class="stat-group">
+          <p class="small-label">PROJECTED OPENINGS</p>
+          <h3 id="openings" class="blue">—</h3>
+        </div>
+
+        <div class="stat-group">
+          <p class="small-label">PROJECTED SEEKERS</p>
+          <h3 id="seekers">—</h3>
+        </div>
+
+        <div class="stat-group">
+          <p class="small-label">SEEKERS PER OPENING</p>
+          <h3 id="ratio">—</h3>
+        </div>
+
         <p id="outlook"></p>
-        <label
-          >REFERENCE PERIOD
-          <select id="year">
-            <option value="total">2026–2035</option>
-          </select></label
-        >
+
+        <label class="year-label" for="year"> REFERENCE PERIOD </label>
+
+        <select id="year">
+          <option value="total">2026–2035</option>
+        </select>
+
         <p id="scale"></p>
-        <p>● <span class="blue">OPENINGS</span> / ○ SEEKERS</p>
+
+        <div class="legend">
+          <span><i class="dot opening"></i> OPENINGS</span>
+          <span><i class="dot seeker"></i> SEEKERS</span>
+        </div>
       </section>
+
+      <section class="visual-heading">
+        <p class="small-label" id="figure-number">
+          FIG 01 / RADIAL DISTRIBUTION
+        </p>
+        <p id="figure-description">Projected labour supply and demand</p>
+      </section>
+
+      <div class="mode-selector">
+        <button class="active" data-mode="0"><span>01</span> RADIAL</button>
+
+        <button data-mode="1"><span>02</span> TIMELINE</button>
+
+        <button data-mode="2"><span>03</span> NETWORK</button>
+      </div>
+
+      <div id="tooltip" hidden></div>
+
       <footer class="bottom-panel">
         <div class="technical-info">
-          SOURCE: ESDC / COPS<br />PROJECTED FLOWS, NOT CURRENT VACANCIES<br />ILLUSTRATIVE
-          AGENT BEHAVIOUR
+          SOURCE: ESDC / COPS<br />
+          PROJECTED FLOWS, NOT CURRENT VACANCIES<br />
+          ILLUSTRATIVE PARTICLE REPRESENTATION
         </div>
-        <a id="ai-link" class="ai-link" href="exposure.html"
-          >POTENTIAL AI IMPACT ↗</a
-        >
-        <div class="interaction-info">
-          INTERACTION PROTOCOL<br />MOVE CURSOR TO DISTURB PARTICLES<br />HOLD
-          CLICK TO ATTRACT PARTICLES
+
+        <a id="ai-link" class="ai-link" href="exposure.html">
+          POTENTIAL AI IMPACT ↗
+        </a>
+
+        <div class="interaction-protocol">
+          <p>INTERACTION PROTOCOL</p>
+          <p>HOVER TO REVEAL CONNECTIONS</p>
+          <p>SELECT MODE TO EXPLORE DISTRIBUTION</p>
         </div>
       </footer>
     </main>
+
     <script src="simulation.js"></script>
   </body>
 </html>
