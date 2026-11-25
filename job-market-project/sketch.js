@@ -83,15 +83,20 @@ function setup() {
     });
   }
 
-  for (let occupation of occupations) {
-    const lat = radians(occupation.lat);
-    const lon = radians(occupation.lon);
+  for (let i = 0; i < occupations.length; i++) {
+    const occupation = occupations[i];
+
+    const y = 1 - (2 * (i + 0.5)) / occupations.length;
+    const ring = sqrt(1 - y * y);
+    const angle = i * goldenAngle;
 
     jobNodes.push({
       ...occupation,
-      x: cos(lat) * sin(lon) * RADIUS,
-      y: -sin(lat) * RADIUS,
-      z: cos(lat) * cos(lon) * RADIUS,
+
+      x: cos(angle) * ring * RADIUS,
+      y: y * RADIUS,
+      z: sin(angle) * ring * RADIUS,
+
       screenX: 0,
       screenY: 0,
       depth: 0,
